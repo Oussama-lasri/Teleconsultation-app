@@ -1,5 +1,7 @@
 package com.example.appointment_management.enums;
 
-public class Role {
-
+public enum Role {
+	 	PATIENT,
+	    DOCTOR,
+	    ADMIN
 }
