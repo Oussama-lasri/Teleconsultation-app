@@ -1,6 +1,13 @@
 package com.example.appointment_management.model;
 
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.example.appointment_management.enums.Role;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +29,19 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String role; // Rôle de l'utilisateur (patient ou médecin)
-
+    @Enumerated(EnumType.STRING)
+    private Role role; // "PATIENT" or "DOCTOR" or "ADMIN"
+    
+    @Column(nullable = false)
+    private boolean isVerified;
+    
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+    
+    
     // Relations
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Patient patient;
